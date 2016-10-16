@@ -1,7 +1,7 @@
 -#  This file is app/views/movies/search_tmdb.html.haml
 %h1 The following movies containing @search_terms were found in TMDb
 
-= form_tag movies_path, :action => 'add_tmdb' do
+= form_tag movies_add_tmdb_path do
 
 
   %table#movies
