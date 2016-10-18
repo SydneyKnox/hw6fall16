@@ -19,5 +19,5 @@
           %td <input id= "checkbox_#{movie["tmdb_id"]}" name = "tmdb_movies[#{movie["tmdb_id"]}]" type="checkbox"/>
   %h1 Search TMDb for a movie
 
-  = submit_tag 'Add Selected Movies'
+  = submit_tag 'Add Selected Movies', :id => "movies_button"
 =link_to "Return to Movie List", movies_path
