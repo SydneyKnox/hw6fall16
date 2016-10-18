@@ -74,13 +74,15 @@ class MoviesController < ApplicationController
     if @searchResults == nil
       flash[:notice] = "No matching movies were found on TMDb."
       @searchResults = []
-      return @searchResults
-     # redirect_to movies_path
+      #return @searchResults
+      redirect_to movies_path
     end
   end
   
   def add_tmdb
-    movies_to_add = params[:tmdb_movies].keys
+    if(params[:tmdb_movies] != nil && !params[:tmdb_movies].empty?)
+      movies_to_add = params[:tmdb_movies].keys
+    end
    # arr = movies_to_add.keys
     if movies_to_add != nil
       movies_to_add.each do |movie|
@@ -91,6 +93,7 @@ class MoviesController < ApplicationController
       redirect_to movies_path
     else
       flash[:notice] = "No movies selected"
+      redirect_to movies_path
     end
   end
 
