@@ -64,38 +64,27 @@ class MoviesController < ApplicationController
   def search_tmdb
     Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
     @searchTerm = params[:search_terms]
-    @returnedMovies = []
+  
     if :search_terms == '' || :search_terms == nil
-      flash[:warning] = "Invalid Search Term"
-      redirect_to movies_path
+      flash[:notice] = "Invalid Search Term"
+     # redirect_to movies_path
     else
-      @new_movies=Movie.find_in_tmdb(params[:search_terms])
-      flash[:warning] = "found movies"
-      @new_movies.each do |movie|
-        usa = Tmdb::Movie.releases(movie.id)["countries"].find {|rating| rating['iso_3166_1'] == "US"}
-        if(usa != nil)
-          rating = usa["certification"]
-          if rating != nil && rating != ''
-            @returnedMovies.push({"title" => movie.title, "tmdb_id" => movie.id, "overview" => movie.overview, "rating" => rating, "release_date" => movie.release_date})
-          else
-            @returnedMovies.push({"title" => movie.title, "tmdb_id" => movie.id, "overview" => movie.overview, "rating" => "NR", "release_date" => movie.release_date})
-          end
-        end
-      end
-      
+      @searchResults = Movie.find_in_tmdb(params[:search_terms])
     end
-    if @new_movies == nil
-      flash[:warning] = "'#{params[:search_terms]}' was not found in TMDb."
-      redirect_to movies_path
+    if @searchResults == nil
+      flash[:notice] = "'#{params[:search_terms]}' was not found in TMDb."
+     # redirect_to movies_path
     end
   end
   
   def add_tmdb
-    movies_to_add = params[:tmdb_movies]
-    arr = movies_to_add.keys
-    arr.each do |movie|
+    movies_to_add = params[:tmdb_movies].keys
+   # arr = movies_to_add.keys
+    movies_to_add.each do |movie|
       Movie.create_from_tmdb(movie)
+      puts movie
     end
+    redirect_to movies_path
   end
 
 end

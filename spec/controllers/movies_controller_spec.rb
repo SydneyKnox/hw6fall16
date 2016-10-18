@@ -21,4 +21,7 @@ describe MoviesController do
       expect(assigns(:movies)).to eq(fake_results)
     end 
   end
+  describe 'displaying Results' do
+    it ''
+  end
 end

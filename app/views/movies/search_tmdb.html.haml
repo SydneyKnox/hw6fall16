@@ -1,8 +1,7 @@
 -#  This file is app/views/movies/search_tmdb.html.haml
 %h1 The following movies containing @search_terms were found in TMDb
 
-= form_tag movies_add_tmdb_path do
-
+= form_tag :action => 'add_tmdb' do
 
   %table#movies
     %thead
@@ -12,13 +11,13 @@
         %th{:class => @date_header}= link_to 'Release Date', movies_path(:sort => 'release_date', :ratings => @selected_ratings), :id => 'release_date_header'
         %th Select
     %tbody
-      - @returnedMovies.each do |movie|
+      - @searchResults.each do |movie|
         %tr
           %td= movie["title"] 
           %td= movie["rating"]
           %td= movie["release_date"]
-          %td=check_box_tag "tmdb_movies[#{movie[:tmdb_id]}]"
+          %td <input id= "checkbox_#{movie["tmdb_id"]}" name = "tmdb_movies[#{movie["tmdb_id"]}]" type="checkbox"/>
   %h1 Search TMDb for a movie
 
-  
   = submit_tag 'Add Selected Movies'
+=link_to "Return to Movie List", movies_path
