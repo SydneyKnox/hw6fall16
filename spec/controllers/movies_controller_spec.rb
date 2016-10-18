@@ -32,5 +32,10 @@ describe MoviesController do
       expect(response).to redirect_to('/movies')
       expect(flash[:notice]).to eq("No movies selected")
     end
+    it 'flash invalid input if empty input' do
+      post :search_tmdb, {:search_terms => ''}
+      expect(response).to redirect_to('/movies')
+      expect(flash[:notice]).to eq("Invalid search term")
+    end
   end
 end
